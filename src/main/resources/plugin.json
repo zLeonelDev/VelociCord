@@ -1,0 +1,11 @@
+{
+  "id": "velocicord",
+  "name": "VelociCord",
+  "version": "1.0.1",
+  "authors": ["LeonelDev & Contributors"],
+  "main": "com.leonel.velocicord.VelociCord",
+  "dependencies": [
+    { "id": "velocity", "optional": false },
+    { "id": "luckperms", "optional": true }
+  ]
+}

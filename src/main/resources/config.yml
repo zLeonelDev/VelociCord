@@ -1,0 +1,44 @@
+# ======================================================
+#                VelociCord Configuration
+# ======================================================
+
+settings:
+  # Permitir mensajes de entrada y salida en Discord
+  joinLeaveMessages: true
+  # Sincronizar el chat de Minecraft con Discord
+  chatSync: true
+  # Modo depuración (muestra logs detallados en consola)
+  debug: false
+
+discord:
+  # Token del bot de Discord (Obtenlo en https://discord.com/developers/applications)
+  botToken: "tu-token-aquí"
+  # Estado del bot. Formatos soportados: "playing ...", "watching ...", "listening ...", "custom ..."
+  status: "playing Velocity Server"
+  # Si el plugin debe manejar el estado del bot automáticamente
+  useConfigStatus: true
+
+channels:
+  # Canal donde se enviarán todos los mensajes si no hay uno específico para el servidor
+  global: 0
+  # Los IDs de los canales de los servidores se añadirán aquí automáticamente al iniciar.
+  # Puedes configurarlos manualmente si lo deseas:
+  # lobby: 1234567890
+
+voiceStatus:
+  # Mostrar el contador de jugadores en el nombre de un canal de voz
+  enabled: false
+  # ID del canal de voz (debe ser un canal de voz real)
+  channelId: 0
+  # Formato del nombre del canal (%count% será reemplazado por los jugadores online)
+  format: "🎮 Online: %count%"
+  # Intervalo de actualización en segundos
+  updateIntervalSeconds: 30
+
+format:
+  discord:
+    # Formato de mensajes desde Discord hacia Minecraft (Soporta MiniMessage)
+    # Colores/estilos: <gray>, <red>, <b> (negrita), <gradient:color1:color2>, etc.
+    from: "<gray>[<b><gradient:#00A2FF:#00F5FF>DISCORD</gradient></b><gray>] <color:%color%>%role%</color> <gray>| <color:%color%>%user%</color> <white>» %message%"
+    # Formato de mensajes desde Minecraft hacia Discord
+    to: "%role% %user% » %message%"
