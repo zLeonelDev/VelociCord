@@ -94,4 +94,4 @@ Durante la investigación del actualizador de canales de voz se añadieron logs 
 
 ## Licencia
 
-Este repositorio no incluye actualmente un archivo de licencia.
+VelociCord se distribuye bajo la [licencia MIT](LICENSE).
