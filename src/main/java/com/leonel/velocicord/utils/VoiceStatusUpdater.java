@@ -19,8 +19,8 @@ public class VoiceStatusUpdater {
     private final long channelId;
     private final String format;
     private final int intervalSeconds;
-    private final int instanceHash; // DIAG
-    private ScheduledTask scheduledTask; // DIAG
+    private final int instanceHash;
+    private ScheduledTask scheduledTask;
 
     public VoiceStatusUpdater(ProxyServer proxy, JDA jda, Logger logger, VelociCord bridge,
             long channelId, String format, int intervalSeconds) {
@@ -31,28 +31,25 @@ public class VoiceStatusUpdater {
         this.channelId = channelId;
         this.format = format;
         this.intervalSeconds = intervalSeconds;
-        this.instanceHash = System.identityHashCode(this); // DIAG
-        logger.info("[DIAG] VoiceStatusUpdater creado. instanceHash=" + instanceHash // DIAG
-                + " channelId=" + channelId + " intervalSeconds=" + intervalSeconds); // DIAG
+        this.instanceHash = System.identityHashCode(this);
+        diag("VoiceStatusUpdater creado. instanceHash=" + instanceHash
+            + " channelId=" + channelId + " intervalSeconds=" + intervalSeconds);
     }
 
     public void start() {
-        // DIAG
-        logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash + " start() llamado. intervalSeconds="
-                + intervalSeconds);
+        diag("VoiceStatusUpdater#" + instanceHash + " start() llamado. intervalSeconds=" + intervalSeconds);
         scheduledTask = proxy.getScheduler().buildTask(bridge, this::updateVoiceStatus)
                 .repeat(intervalSeconds, TimeUnit.SECONDS)
                 .schedule();
-        logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash + " tarea creada. taskHash="
+        diag("VoiceStatusUpdater#" + instanceHash + " tarea creada. taskHash="
             + System.identityHashCode(scheduledTask));
         if (bridge.getConfig().isDebug())
             logger.info("VoiceStatusUpdater iniciado. Actualización cada " + intervalSeconds + "s");
     }
 
     public void shutdown() {
-        // DIAG
-        logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash + " shutdown() llamado. taskHash="
-            + (scheduledTask == null ? "null" : System.identityHashCode(scheduledTask)));
+        diag("VoiceStatusUpdater#" + instanceHash + " shutdown() llamado. taskHash="
+                + (scheduledTask == null ? "null" : System.identityHashCode(scheduledTask)));
         updateVoiceStatusForced(0);
         if (bridge.getConfig().isDebug())
             logger.info("VoiceStatusUpdater detenido.");
@@ -60,8 +57,7 @@ public class VoiceStatusUpdater {
 
     private void updateVoiceStatus() {
         int count = proxy.getAllPlayers().size();
-        // DIAG
-        logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash + " updateVoiceStatus() entry."
+        diag("VoiceStatusUpdater#" + instanceHash + " updateVoiceStatus() entry."
                 + " intervalSeconds=" + intervalSeconds
                 + " ts=" + System.currentTimeMillis()
                 + " count=" + count);
@@ -88,21 +84,18 @@ public class VoiceStatusUpdater {
         VoiceChannel voiceChannel = (VoiceChannel) channel;
 
         if (!voiceChannel.getName().equals(newName)) {
-            // DIAG
-            logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash
+            diag("VoiceStatusUpdater#" + instanceHash
                     + " ANTES de setName().queue(). oldName=\"" + voiceChannel.getName()
                     + "\" newName=\"" + newName + "\" ts=" + System.currentTimeMillis());
             voiceChannel.getManager().setName(newName).queue(
                     success -> {
-                        // DIAG
-                        logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash
+                diag("VoiceStatusUpdater#" + instanceHash
                                 + " setName SUCCESS callback. newName=\"" + newName + "\"");
                         if (bridge.getConfig().isDebug())
                             logger.info("Canal de voz actualizado: " + newName);
                     },
                     error -> {
-                        // DIAG
-                        logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash
+                        diag("VoiceStatusUpdater#" + instanceHash
                                 + " setName ERROR callback. newName=\"" + newName + "\""
                                 + " errorClass=" + (error == null ? "null" : error.getClass().getName())
                                 + " errorMsg=" + (error == null ? "null" : error.getMessage()));
@@ -110,10 +103,14 @@ public class VoiceStatusUpdater {
                             logger.warn("No se pudo actualizar el canal de voz: " + error.getMessage());
                     });
         } else {
-            // DIAG
-            logger.info("[DIAG] VoiceStatusUpdater#" + instanceHash
+            diag("VoiceStatusUpdater#" + instanceHash
                     + " nombre sin cambios. currentName=\"" + voiceChannel.getName()
                     + "\" targetName=\"" + newName + "\"");
         }
+    }
+
+    private void diag(String message) {
+        if (bridge.getConfig().isDebug())
+            logger.info("[DIAG] " + message);
     }
 }

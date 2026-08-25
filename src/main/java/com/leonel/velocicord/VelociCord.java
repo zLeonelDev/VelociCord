@@ -71,9 +71,10 @@ public final class VelociCord {
 
         // Activar VoiceStatus
         if (config.isVoiceStatusEnabled()) {
-            // DIAG
-            logger.info("[DIAG] VelociCord.onProxyInit: creando VoiceStatusUpdater (previo="
-                    + (voiceUpdater == null ? "null" : "voiceUpdater#" + System.identityHashCode(voiceUpdater)) + ")");
+            if (config.isDebug())
+                logger.info("[DIAG] VelociCord.onProxyInit: creando VoiceStatusUpdater (previo="
+                        + (voiceUpdater == null ? "null" : "voiceUpdater#" + System.identityHashCode(voiceUpdater))
+                        + ")");
             voiceUpdater = new VoiceStatusUpdater(
                     server,
                     jda,
@@ -146,7 +147,8 @@ public final class VelociCord {
     }
 
     public void doReload() {
-        logger.info("[DIAG] VelociCord.doReload() INICIO. voiceUpdater previo="
+        if (config.isDebug())
+            logger.info("[DIAG] VelociCord.doReload() INICIO. voiceUpdater previo="
                 + (voiceUpdater == null ? "null" : "voiceUpdater#" + System.identityHashCode(voiceUpdater)));
         try {
             config.loadConfig();
@@ -154,11 +156,13 @@ public final class VelociCord {
             setupDiscord(config.getDiscordToken(), new DiscordListener(this));
 
             if (voiceUpdater != null) {
-                logger.info("[DIAG] VelociCord.doReload(): llamando shutdown() de voiceUpdater#"
-                        + System.identityHashCode(voiceUpdater));
+                if (config.isDebug())
+                    logger.info("[DIAG] VelociCord.doReload(): llamando shutdown() de voiceUpdater#"
+                            + System.identityHashCode(voiceUpdater));
                 voiceUpdater.shutdown();
                 if (config.isVoiceStatusEnabled()) {
-                    logger.info("[DIAG] VelociCord.doReload(): creando NUEVO VoiceStatusUpdater");
+                    if (config.isDebug())
+                        logger.info("[DIAG] VelociCord.doReload(): creando NUEVO VoiceStatusUpdater");
                     voiceUpdater = new VoiceStatusUpdater(
                             server,
                             jda,
@@ -175,7 +179,8 @@ public final class VelociCord {
         } catch (Exception e) {
             logger.error("Error al recargar VelociCord:", e);
         }
-        logger.info("[DIAG] VelociCord.doReload() FIN. voiceUpdater ahora="
+        if (config.isDebug())
+            logger.info("[DIAG] VelociCord.doReload() FIN. voiceUpdater ahora="
                 + (voiceUpdater == null ? "null" : "voiceUpdater#" + System.identityHashCode(voiceUpdater)));
     }
 
