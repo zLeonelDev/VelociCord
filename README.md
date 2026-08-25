@@ -28,7 +28,7 @@ VelociCord conecta un proxy de Velocity con Discord mediante JDA. Permite sincro
    mvn clean package
    ```
 
-2. Copia `target/VelociCord-1.0.1.jar` a la carpeta `plugins` de Velocity.
+2. Copia el plugin resultante en la carpeta `target` a la carpeta `plugins` de Velocity.
 3. Inicia Velocity una vez para generar la configuración.
 4. Edita `plugins/velocicord/config.yml` y añade el token del bot y los IDs de los canales.
 5. Reinicia el proxy.
