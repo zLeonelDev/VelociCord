@@ -63,11 +63,11 @@ Los nombres bajo `channels` deben coincidir con los nombres de los servidores re
 
 ## Comandos y permisos
 
-| Comando | Permiso |
-| --- | --- |
-| `/velocicord reload` | `velocicord.command.reload` |
-| `/velocicord status <modo> <mensaje>` | `velocicord.command.status` |
-| Notificaciones de conexión | `velocicord.notify.connection` |
+| Comando                               | Permiso                        |
+| ------------------------------------- | ------------------------------ |
+| `/velocicord reload`                  | `velocicord.command.reload`    |
+| `/velocicord status <modo> <mensaje>` | `velocicord.command.status`    |
+| Notificaciones de conexión            | `velocicord.notify.connection` |
 
 También están disponibles los alias `/vc`, `/vcord` y `/discord`.
 
