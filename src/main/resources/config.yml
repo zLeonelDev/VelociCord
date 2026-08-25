@@ -25,6 +25,10 @@ channels:
   # Puedes configurarlos manualmente si lo deseas:
   # lobby: 1234567890
 
+autoReplies:
+  # Responde automáticamente cuando alguien escribe exactamente el texto indicado
+  # "!ip": "miservidor.com"
+
 voiceStatus:
   # Mostrar el contador de jugadores en el nombre de un canal de voz
   enabled: false
@@ -33,7 +37,7 @@ voiceStatus:
   # Formato del nombre del canal (%count% será reemplazado por los jugadores online)
   format: "🎮 Online: %count%"
   # Intervalo de actualización en segundos
-  updateIntervalSeconds: 30
+  updateIntervalSeconds: 180
 
 format:
   discord:

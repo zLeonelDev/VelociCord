@@ -44,6 +44,16 @@ public class DiscordListener extends ListenerAdapter {
 
         String name = member != null ? member.getEffectiveName() : author.getName();
         String content = message.getContentDisplay();
+        String autoReply = bridge.getConfig().getAutoReply(content.trim());
+        if (autoReply != null) {
+            channel.sendMessage(autoReply).queue(
+                    success -> {
+                        if (bridge.getConfig().isDebug())
+                            logger.info("Auto-reply enviado para: " + content.trim());
+                    },
+                    error -> logger.warn("No se pudo enviar el auto-reply para '" + content.trim() + "': "
+                            + error.getMessage()));
+        }
         boolean canUseColors = member != null && member.hasPermission(Permission.MESSAGE_MANAGE);
         String sanitizedContent = canUseColors ? content : TextFormatter.toDiscord(content);
 

@@ -85,6 +85,8 @@ public class Config {
         Map<String, Object> channels = new LinkedHashMap<>();
         channels.put("global", 0L);
 
+        Map<String, Object> autoReplies = new LinkedHashMap<>();
+
         Map<String, Object> voiceStatus = new LinkedHashMap<>();
         voiceStatus.put("enabled", false);
         voiceStatus.put("channelId", 0L);
@@ -101,6 +103,7 @@ public class Config {
         root.put("settings", settings);
         root.put("discord", discord);
         root.put("channels", channels);
+        root.put("autoReplies", autoReplies);
         root.put("voiceStatus", voiceStatus);
         root.put("format", format);
 
@@ -269,6 +272,15 @@ public class Config {
     public int getVoiceStatusInterval() {
         Object val = ((Map<?, ?>) configData.get("voiceStatus")).get("updateIntervalSeconds");
         return val instanceof Number ? ((Number) val).intValue() : 30;
+    }
+
+    public String getAutoReply(String trigger) {
+        Object value = configData.get("autoReplies");
+        if (!(value instanceof Map<?, ?> replies))
+            return null;
+
+        Object response = replies.get(trigger);
+        return response instanceof String ? (String) response : null;
     }
 
     public String getFormat(String type) {

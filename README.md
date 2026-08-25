@@ -8,6 +8,7 @@ VelociCord conecta un proxy de Velocity con Discord mediante JDA. Permite sincro
 - Mensajes de entrada, cambio de servidor y salida.
 - Mensajes de Discord hacia el proxy o hacia los jugadores de un servidor concreto.
 - Estado personalizado del bot de Discord.
+- Respuestas automáticas configurables para comandos o palabras clave.
 - Contador opcional de jugadores en el nombre de un canal de voz.
 - Formatos configurables con MiniMessage y colores de Discord.
 - Integración opcional con LuckPerms para grupos y permisos.
@@ -52,6 +53,10 @@ channels:
   global: 123456789012345678
   lobby: 123456789012345678
 
+autoReplies:
+  "!ip": "miservidor.com"
+  "!web": "https://miservidor.com"
+
 voiceStatus:
   enabled: false
   channelId: 123456789012345678
@@ -60,6 +65,8 @@ voiceStatus:
 ```
 
 Los nombres bajo `channels` deben coincidir con los nombres de los servidores registrados en Velocity. El canal `global` recibe los mensajes de Discord para todo el proxy. El canal específico de un servidor solo reenvía el mensaje a los jugadores conectados allí.
+
+Las claves de `autoReplies` se comparan exactamente, ignorando espacios al principio y al final. La respuesta se publica en el mismo canal de Discord.
 
 ## Comandos y permisos
 
