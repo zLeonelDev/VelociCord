@@ -1,7 +1,7 @@
 {
   "id": "velocicord",
   "name": "VelociCord",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Sincronización entre Velocity y Discord",
   "authors": ["LeonelDev"],
   "dependencies": [],
