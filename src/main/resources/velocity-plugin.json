@@ -3,7 +3,7 @@
   "name": "VelociCord",
   "version": "1.1.0",
   "description": "Sincronización entre Velocity y Discord",
-  "authors": ["LeonelDev"],
+  "authors": ["LeonelDev & Contributors"],
   "dependencies": [],
   "main": "com.leonel.velocicord.VelociCord"
 }
