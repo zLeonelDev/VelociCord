@@ -1,17 +1,17 @@
 # VelociCord
 
-VelociCord conecta un proxy de Velocity con Discord mediante JDA. Permite sincronizar el chat, anunciar conexiones y desconexiones, reenviar mensajes de Discord a los jugadores y mostrar el número de jugadores conectados en un canal de voz.
+VelociCord conecta un proxy de Velocity con Discord usando JDA. Sincroniza el chat entre ambos, envía notificaciones de conexión y desconexión y permite mostrar los jugadores conectados en un canal de voz.
 
 ## Características
 
-- Chat de Minecraft a Discord por servidor.
-- Mensajes de entrada, cambio de servidor y salida.
-- Mensajes de Discord hacia el proxy o hacia los jugadores de un servidor concreto.
-- Estado personalizado del bot de Discord.
-- Respuestas automáticas configurables para comandos o palabras clave.
-- Contador opcional de jugadores en el nombre de un canal de voz.
+- Sincronización del chat de Minecraft con Discord.
+- Notificaciones de entrada, cambio de servidor y salida.
+- Envío de mensajes de Discord al proxy o a un servidor específico.
+- Estado personalizado del bot.
+- Respuestas automáticas para comandos o palabras clave.
+- Contador de jugadores en un canal de voz.
 - Formatos configurables con MiniMessage y colores de Discord.
-- Integración opcional con LuckPerms para grupos y permisos.
+- Integración opcional con LuckPerms.
 - Recarga de configuración mediante comando.
 
 ## Requisitos
@@ -19,24 +19,24 @@ VelociCord conecta un proxy de Velocity con Discord mediante JDA. Permite sincro
 - Velocity 3.1.1 o compatible.
 - Java 17 o superior.
 - Un bot de Discord con acceso al servidor y permisos para leer y enviar mensajes.
-- LuckPerms es opcional.
+- LuckPerms (opcional).
 
 ## Instalación
 
-1. Compila el proyecto con Maven:
+1. Compila el proyecto:
 
-   ```text
+   ```bash
    mvn clean package
    ```
 
-2. Copia el plugin resultante en la carpeta `target` a la carpeta `plugins` de Velocity.
-3. Inicia Velocity una vez para generar la configuración.
-4. Edita `plugins/velocicord/config.yml` y añade el token del bot y los IDs de los canales.
+2. Copia el JAR generado en `target/` a la carpeta `plugins` de Velocity.
+3. Inicia Velocity para que se genere la configuración.
+4. Edita `plugins/velocicord/config.yml` y configura el bot y los canales de Discord.
 5. Reinicia el proxy.
 
 ## Configuración
 
-La configuración se encuentra en `config.yml`.
+La configuración se encuentra en `plugins/velocicord/config.yml`.
 
 ```yaml
 settings:
@@ -60,44 +60,62 @@ autoReplies:
 voiceStatus:
   enabled: false
   channelId: 123456789012345678
-  format: "🎮 Online: %count%"
+  format: "Online: %count%"
   updateIntervalSeconds: 30
 ```
 
-Los nombres bajo `channels` deben coincidir con los nombres de los servidores registrados en Velocity. El canal `global` recibe los mensajes de Discord para todo el proxy. El canal específico de un servidor solo reenvía el mensaje a los jugadores conectados allí.
+Los nombres dentro de `channels` deben coincidir con los nombres de los servidores registrados en Velocity.
 
-Las claves de `autoReplies` se comparan exactamente, ignorando espacios al principio y al final. La respuesta se publica en el mismo canal de Discord.
+- `global`: canal que recibe los mensajes de Discord para todo el proxy.
+- Un canal específico, como `lobby`: los mensajes se envían únicamente a los jugadores conectados en ese servidor.
+
+Las claves de `autoReplies` se comparan exactamente, ignorando los espacios al principio y al final. Las respuestas se envían al mismo canal donde se recibió el mensaje.
+
+El token del bot debe mantenerse privado. No lo compartas con nadie.
 
 ## Comandos y permisos
 
-| Comando                               | Permiso                        |
-| ------------------------------------- | ------------------------------ |
-| `/velocicord reload`                  | `velocicord.command.reload`    |
-| `/velocicord status <modo> <mensaje>` | `velocicord.command.status`    |
-| Notificaciones de conexión            | `velocicord.notify.connection` |
+| Comando | Permiso |
+| --- | --- |
+| `/velocicord reload` | `velocicord.command.reload` |
+| `/velocicord status <modo> <mensaje>` | `velocicord.command.status` |
+| Notificaciones de conexión | `velocicord.notify.connection` |
 
-También están disponibles los alias `/vc`, `/vcord` y `/discord`.
+También puedes usar los alias `/vc`, `/vcord` y `/discord`.
 
-Los modos de estado admitidos son `playing`, `watching`, `listening` y `custom`.
+Los modos de estado disponibles son `playing`, `watching`, `listening` y `custom`.
 
 ## Formatos
 
-El formato `format.discord.from` se usa al enviar mensajes de Discord a Minecraft. El formato `format.discord.to` se usa al enviar mensajes de Minecraft a Discord.
+Hay dos formatos principales:
+
+- `format.discord.from`: mensajes enviados de Discord a Minecraft.
+- `format.discord.to`: mensajes enviados de Minecraft a Discord.
 
 Variables disponibles:
 
-- `%user%`: nombre del jugador o usuario.
-- `%role%`: grupo o rol.
-- `%message%`: contenido del mensaje.
-- `%server%`: servidor actual de Minecraft.
-- `%color%`: color del rol de Discord.
-- `%count%`: jugadores conectados en el nombre del canal de voz.
+| Variable | Descripción |
+| --- | --- |
+| `%user%` | Nombre del jugador o usuario. |
+| `%role%` | Grupo o rol. |
+| `%message%` | Contenido del mensaje. |
+| `%server%` | Servidor actual de Minecraft. |
+| `%color%` | Color del rol de Discord. |
+| `%count%` | Número de jugadores conectados. |
+
+Los formatos de Minecraft utilizan MiniMessage.
 
 ## Desarrollo
 
-El proyecto usa Maven, Java 17, Velocity API, JDA, Adventure MiniMessage y SnakeYAML. El artefacto final se genera en `target/` y esa carpeta no se versiona.
+El proyecto utiliza Maven y Java 17. Entre sus dependencias están Velocity API, JDA, Adventure MiniMessage y SnakeYAML.
 
-Durante la investigación del actualizador de canales de voz se añadieron logs con el prefijo `[DIAG]`. Registran la instancia del updater, la tarea programada y el resultado de cada solicitud de cambio de nombre. Se pueden retirar después de confirmar el origen de las ejecuciones duplicadas.
+Para compilarlo:
+
+```bash
+mvn clean package
+```
+
+El JAR se genera en `target/`. Esta carpeta no se incluye en el repositorio.
 
 ## Licencia
 
